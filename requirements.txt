@@ -1,1 +1,1 @@
-For terraform requirements are in main.tf on top of file
+terraform >= 1.0.0
