@@ -3,18 +3,18 @@ A simple Flask app for greeting users and serving static files of frontend.
 
 ## Installation
 Clone this repository: 
-'''bash
+```bash
 git clone https://github.com/example/simple-flask-app.git
-'''
+```
 ## Install dependencies: 
-'''bash
+```bash
 pip install -r requirements.txt
-'''
+```
 ## Usage
 Start the Flask app: 
-'''bash
+```bash
 python app.py
-'''
+```
 Open your web browser and go to http://localhost:5000/ to see a simple greeting.
 Go to http://localhost:5000/greet/{name} to see a personalized greeting.
 Go to http://localhost:5000/static/{path} to access static files in the static directory.
