@@ -1,0 +1,40 @@
+name: Deploy Terraform
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  terraform:
+    name: Deploy Terraform
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+      - name: Install Terraform
+        uses: hashicorp/setup-terraform@v1
+      - name: Terraform init
+        run: terraform init
+        working-directory: ./terraform
+      - name: Terraform validate
+        run: terraform validate
+        working-directory: ./terraform
+      - name: Terraform plan
+        run: terraform plan
+        working-directory: ./terraform
+        id: plan
+      - name: Terraform apply
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        run: terraform apply -auto-approve
+        working-directory: ./terraform
+      - name: Get instance IP
+        if: steps.plan.outcome == 'success'
+        run: echo "The instance IP address is $(terraform output public_ip)"
+        working-directory: ./terraform
+
